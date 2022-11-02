@@ -4,12 +4,6 @@
 	"parameters": {
 		"factoryName": {
 			"value": "sampleVenkeyAdf"
-		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://venkeyst.dfs.core.windows.net/"
 		}
 	}
 }
