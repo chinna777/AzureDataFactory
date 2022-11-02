@@ -1,0 +1,109 @@
+{
+	"name": "exsists_doesnot",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_2",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Des_DS",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Des_DS",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "exists2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Emp_id as string,",
+				"          Emp_name as string,",
+				"          Deptno as string,",
+				"          address as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> source1",
+				"source(output(",
+				"          deptno as string,",
+				"          department_name as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> source2",
+				"source1 derive(Deptno = iif(equals(Deptno,\"10\"),replace(Deptno,\"10\", \"40\"),Deptno),",
+				"     partitionBy('hash', 1)) ~> derivedColumn1",
+				"derivedColumn1, source2 exists(derivedColumn1@Deptno == source2@deptno,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists1",
+				"derivedColumn1, source2 exists(derivedColumn1@Deptno == source2@deptno,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists2",
+				"exists1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Emp_id as string,",
+				"          Emp_name as string,",
+				"          Deptno as string,",
+				"          address as string",
+				"     ),",
+				"     partitionFileNames:['exsisting.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1",
+				"exists2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Emp_id as string,",
+				"          Emp_name as string,",
+				"          Deptno as string,",
+				"          address as string",
+				"     ),",
+				"     partitionFileNames:['doesnoExsists.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink2"
+			]
+		}
+	}
+}

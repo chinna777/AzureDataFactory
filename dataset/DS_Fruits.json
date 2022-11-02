@@ -1,0 +1,45 @@
+{
+	"name": "DS_Fruits",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "fruits.csv",
+				"fileSystem": "sample"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "vendor",
+				"type": "String"
+			},
+			{
+				"name": "apple",
+				"type": "String"
+			},
+			{
+				"name": "banana",
+				"type": "String"
+			},
+			{
+				"name": "mango",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

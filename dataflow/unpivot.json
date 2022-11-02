@@ -1,0 +1,71 @@
+{
+	"name": "unpivot",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Fruits",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Des_DS",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "unpivot1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          vendor as string,",
+				"          apple as string,",
+				"          banana as string,",
+				"          mango as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> source1",
+				"source1 unpivot(output(",
+				"          fruits as string,",
+				"          Total as string",
+				"     ),",
+				"     ungroupBy(id,",
+				"          vendor),",
+				"     lateral: true,",
+				"     ignoreNullPivots: false) ~> unpivot1",
+				"unpivot1 aggregate(groupBy(fruits,",
+				"          vendor),",
+				"     indiv_count = count(fruits)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Emp_id as string,",
+				"          Emp_name as string,",
+				"          Deptno as string,",
+				"          address as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
