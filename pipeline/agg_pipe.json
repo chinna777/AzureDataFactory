@@ -45,12 +45,36 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "nimmakay",
+					"value": {
+						"value": "@pipeline().TriggerName",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
 			"DAnny": {
 				"type": "String",
 				"defaultValue": "danny"
+			},
+			"nimmakay": {
+				"type": "String",
+				"defaultValue": "nimmarasam"
 			}
 		},
 		"annotations": [],
