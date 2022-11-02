@@ -25,8 +25,34 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "dataflow_aggregate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "DAnny",
+					"value": {
+						"value": "@pipeline().Pipeline",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"DAnny": {
+				"type": "String",
+				"defaultValue": "danny"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-11-01T10:38:38Z"
 	},
