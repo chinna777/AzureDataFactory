@@ -4,6 +4,12 @@
 	"parameters": {
 		"factoryName": {
 			"value": "DFvenkey"
+		},
+		"KeyVaultLink_properties_typeProperties_baseUrl": {
+			"value": "https://venkeykey.vault.azure.net/"
+		},
+		"adls_properties_typeProperties_url": {
+			"value": "https://stvenkey.dfs.core.windows.net/"
 		}
 	}
 }
