@@ -1,0 +1,19 @@
+{
+	"name": "adls",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://stvenkey.dfs.core.windows.net/",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KeyVaultLink",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "storageKey",
+				"secretVersion": "8d0d76e61e394b69b22b38fa1fd27773"
+			}
+		}
+	}
+}
